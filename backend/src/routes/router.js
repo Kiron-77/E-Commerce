@@ -6,7 +6,7 @@ const productRouter = require('../modules/product/product.router')
 const brandRouter = require('../modules/brand/brand.router')
 const categoryRouter = require('../modules/category/category.router')
 const bannerRouter = require('../modules/banner/banner.router')
-
+const cartRouter = require ("../modules/cart/cart.router")
 
 
 app.use("/auth",authRouter)
@@ -14,6 +14,7 @@ app.use("/user", userRouter)
 app.use("/product", productRouter)
 app.use("/brand", brandRouter)
 app.use('/category', categoryRouter)
-app.use('/banner',bannerRouter)
+app.use('/banner', bannerRouter)
+app.use('/cart',cartRouter)
 
 module.exports = app;

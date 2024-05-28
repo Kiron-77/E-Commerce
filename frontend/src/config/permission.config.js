@@ -2,7 +2,8 @@ import React, { useEffect, useState, } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import LoadingSpinner from '../components/common/loading.component'
-import Authsvc from '../pages/servicepage/auth.service'
+import Authsvc from '../pages/cms/servicepage/auth.service'
+
 
 const CheckPermission = ({ accessBy, children }) => {
     const [loading, setLoading] = useState(true)

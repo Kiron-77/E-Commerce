@@ -109,7 +109,7 @@ class CategoryController{
         try {
        
             const data = await categorySvc.getAllCategories({
-                limit: 10,
+                limit: 15,
                 skip: 0,
                 filter: {
                     status:"active"

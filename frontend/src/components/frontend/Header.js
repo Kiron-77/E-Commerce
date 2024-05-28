@@ -6,8 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import Logo from '../../logo/logo';
-import Authsvc from '../../pages/servicepage/auth.service';
+import Authsvc from '../../pages/cms/servicepage/auth.service';
 import { clearImage, getLoggedInUser } from '../../reducers/user.reducer';
+
 
 
 const Header = () => {
@@ -80,8 +81,8 @@ const Header = () => {
     }
   }
   return (<>
-    <header className='h-16 shadow-md bg-white'>
-      <div className='h-full container mx-auto flex items-center px-4 justify-between'>
+    <header className='sticky top-0 h-16 w-full mx-auto justify-between shadow-md bg-white z-50'>
+      <div className='h-full ml-10 mr-10 mx-auto flex items-center justify-between'>
         <div className=''>
           <Link to={"/"}>
             <Logo w={90} h={50} />
@@ -106,7 +107,7 @@ const Header = () => {
           <button className='text-lg min-w-[50px] h-8 bg-red-500 flex items-center justify-center rounded-r-full text-white'
             type='submit'><CiSearch /></button>
         </form>
-        <div className='flex items-center gap-5'>
+        <div className='flex items-center gap-8'>
           {
             loggedInuserDetail ? (
               <>
