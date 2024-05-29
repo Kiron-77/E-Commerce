@@ -3,20 +3,20 @@ const brandSvc = require("../brand/brand.service")
 const categorySvc = require("../category/category.service");
 const { ConnectionPoolCreatedEvent } = require("mongodb");
 class ProductController{
-    createProduct = async (req, res, next) => {
-        try {
+    createProduct = async(req,res,next)=>{
+        try{
             const data = productSvc.transformRequest(req);
-            const success = await productSvc.createProduct(data);
+            const success = await productSvc.createProduct(data)
             res.json({
-                result: success,
-                message: "Product stored Successfully",
-                meta: null
-            });
-        } catch (exception) {
-            console.log('ProductCreate', exception);
-            next(exception);
+                result:success,
+                message:"Product stored Successfully",
+                meta:null
+            })
+        }catch(exception){
+            console.log('ProductCreate',exception)
+            next(exception)
         }
-    };
+    }
     listAllProducts = async (req, res, next) => {
         try {
             const query = req.query;

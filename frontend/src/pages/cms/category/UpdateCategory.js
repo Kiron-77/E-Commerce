@@ -9,6 +9,7 @@ import AdminBreadCrumb from '../../../components/admin/braedcrumb/Breadcrumb'
 import { ImageUploaderComponent, SelectDropdownComponent, TextInputComponent } from '../../../components/common/input.component'
 import uploadImage from '../../../components/common/uploadImage'
 import ZoomImage from '../../../components/common/zoomImage'
+import productSvc from '../products/productService'
 import categorySvc from './categoryService'
 
 const UpdateCategory = () => {
@@ -78,7 +79,7 @@ const UpdateCategory = () => {
 
   const getCategoryDetail = async () => {
     try {
-      const response = await categorySvc.getCategoryById(params.id)
+      const response = await productSvc.getProductById(params.id)
       setValue('title', response.result.title)
       setValue('subCategory', response.result.subCategory)
       setThumbnail(process.env.REACT_APP_IMAGE_URL + '/' + response.result.image)

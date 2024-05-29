@@ -26,7 +26,7 @@ const UploadProducts = () => {
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
     const [sellers, setSellers] = useState([]);
-    
+
     const productRules = Yup.object({
         title: Yup.string().min(2, "Title should be of at least 2 characters long").max(30).required(),
         category: Yup.object({
@@ -77,11 +77,11 @@ const UploadProducts = () => {
     const handleUploadProduct = async (files) => {
         const uploadedImages = [];
         const localThumbnails = [];
-    
+
         for (let file of files) {
             const localImageUrl = URL.createObjectURL(file);
             localThumbnails.push(localImageUrl);
-    
+
             try {
                 const uploadImageCloudinary = await uploadImage(file);
                 uploadedImages.push(uploadImageCloudinary.url);
@@ -89,18 +89,18 @@ const UploadProducts = () => {
                 console.error('Error uploading image:', error);
             }
         }
-    
+
         setThumbnails((prev) => [...prev, ...localThumbnails]);
-    
+
         const currentImages = getValues("images") || [];
         setValue("images", [...currentImages, ...uploadedImages]);
     };
-  
+
     const handleDeleteProductImage = (index) => {
         const newProductImage = getValues("images") || [];
         newProductImage.splice(index, 1);
         setValue("images", newProductImage);
-  
+
         const newThumbnails = [...thumbnails];
         newThumbnails.splice(index, 1);
         setThumbnails(newThumbnails);
@@ -115,65 +115,65 @@ const UploadProducts = () => {
         }
     };
 
-   
-const submitForm = async (data) => {
-    try {
-        console.log("Submitting form with data:", data);
-        setLoading(true);
 
-        // const formatted = {
-        //     ...data,
-        //     status: data.status.value,
-        //     category: data.category.value,
-        //     brand: data.brand.value,
-        //     seller:data.seller.value
-            
-        //   };
+    const submitForm = async (data) => {
+        try {
+            console.log("Submitting form with data:", data);
+            setLoading(true);
 
-        if (data.seller) {
-            const sellerExists = checkIfSellerExist(data.seller);
-            if (!sellerExists) {
-                toast.error("Seller is not registered");
-                setLoading(false);
-                return;
-            }
-        } else {
-            data.seller = null;
-        }
+            // const formatted = {
+            //     ...data,
+            //     status: data.status.value,
+            //     category: data.category.value,
+            //     brand: data.brand.value,
+            //     seller:data.seller.value
 
-        const formData = new FormData();
-        Object.keys(data).forEach((key) => {
-            if (key !== 'images') { 
-                if (key === 'category' || key === 'brand' || key === 'status') {
-                    formData.append(key, data[key].value);
-                } else {
-                    formData.append(key, data[key]);
+            //   };
+
+            if (data.seller) {
+                const sellerExists = checkIfSellerExist(data.seller);
+                if (!sellerExists) {
+                    toast.error("Seller is not registered");
+                    setLoading(false);
+                    return;
                 }
+            } else {
+                data.seller = null;
             }
-        });
-        data.images.forEach((image) => {
-            formData.append('images', image); 
-        });
 
-        console.log("Formatted data to be sent:", formData);
+            const formData = new FormData();
+            Object.keys(data).forEach((key) => {
+                if (key !== 'images') {
+                    if (key === 'category' || key === 'brand' || key === 'status') {
+                        formData.append(key, data[key].value);
+                    } else {
+                        formData.append(key, data[key]);
+                    }
+                }
+            });
+            data.images.forEach((image) => {
+                formData.append('images', image);
+            });
 
-        const response = await productSvc.uploadProduct(formData);
-        console.log("Response from server:", response);
+            console.log("Formatted data to be sent:", formData);
 
-        if (response.ok) {
-            toast.success("Product Created Successfully.");
-            navigate('/admin/product');
-        } else {
-            toast.error("Product creation failed. Please try again.");
-            console.error("Error response:", response);
+            const response = await productSvc.uploadProduct(formData);
+            console.log("Response from server:", response);
+
+            if (response.ok) {
+                toast.success("Product Created Successfully.");
+                navigate('/admin/product');
+            } else {
+                toast.error("Product creation failed. Please try again.");
+                console.error("Error response:", response);
+            }
+        } catch (exception) {
+            console.error("Error during form submission:", exception);
+            toast.error("Product cannot be created at this moment.");
+        } finally {
+            setLoading(false);
         }
-    } catch (exception) {
-        console.error("Error during form submission:", exception);
-        toast.error("Product cannot be created at this moment.");
-    } finally {
-        setLoading(false);
-    }
-};
+    };
 
     return (
         <div className="mx-auto container w-full mt-5 ml-5">
@@ -255,7 +255,7 @@ const submitForm = async (data) => {
                     <div className='bg-slate-100 p-2 w-full ml-32 border rounded'>
                         <SelectDropdownComponent
                             control={control}
-                            errMsg={errors?.status?.value?.message}
+                            errMsg={errors?.status?.message}
                             name={"status"}
                             isMultiple={false}
                             options={[
@@ -263,46 +263,43 @@ const submitForm = async (data) => {
                                 { label: "Un-Publish", value: "inactive" }
                             ]}
                             setValue={setValue}
-                            menuPosition="top"
-                            menuPlacement="auto"
-                            className="mt-2 transform -translate-y-full"
                         />
                     </div>
                     <label htmlFor='images'>Images:</label>
-                  <div className='bg-slate-100 p-2 w-full ml-32 border rounded'>
-                      <ImageUploaderComponent
-                          name={"images"}
-                          errMsg={errors?.images?.message}
-                          control={control}
-                          setError={setError}
-                          setValue={setValue}
-                          setThumb={handleUploadProduct}
-                          multiple
-                      />
-                  </div>
-                  <div className='flex flex-wrap gap-4'>
-                      {thumbnails.map((thumbnail, index) => (
-                          <div key={index} className='relative group'>
-                              <img
-                                  src={thumbnail}
-                                  alt='Product'
-                                  width={80}
-                                  height={80}
-                                  className='bg-slate-100 border cursor-pointer mt-3'
-                                  onClick={() => {
-                                      setOpenFullScreenImage(true);
-                                      setFullScreenImage(thumbnail);
-                                  }}
-                              />
-                              <div
-                                  className='absolute bottom-0 right-0 p-1 text-white bg-red-600 rounded-full hidden group-hover:block cursor-pointer'
-                                  onClick={() => handleDeleteProductImage(index)}
-                              >
-                                  <MdDelete />
-                              </div>
-                          </div>
-                      ))}
-                      {!thumbnails.length && <p className='text-red-600 text-xs ml-32'>*Please upload image</p>}
+                    <div className='bg-slate-100 p-2 w-full ml-32 border rounded'>
+                        <ImageUploaderComponent
+                            name={"images"}
+                            errMsg={errors?.images?.message}
+                            control={control}
+                            setError={setError}
+                            setValue={setValue}
+                            setThumb={handleUploadProduct}
+                            multiple
+                        />
+                    </div>
+                    <div className='flex flex-wrap gap-4'>
+                        {thumbnails.map((thumbnail, index) => (
+                            <div key={index} className='relative group'>
+                                <img
+                                    src={thumbnail}
+                                    alt='Product'
+                                    width={80}
+                                    height={80}
+                                    className='bg-slate-100 border cursor-pointer mt-3'
+                                    onClick={() => {
+                                        setOpenFullScreenImage(true);
+                                        setFullScreenImage(thumbnail);
+                                    }}
+                                />
+                                <div
+                                    className='absolute bottom-0 right-0 p-1 text-white bg-red-600 rounded-full hidden group-hover:block cursor-pointer'
+                                    onClick={() => handleDeleteProductImage(index)}
+                                >
+                                    <MdDelete />
+                                </div>
+                            </div>
+                        ))}
+                        {!thumbnails.length && <p className='text-red-600 text-xs ml-32'>*Please upload image</p>}
                     </div>
                     <label htmlFor='description'>Description:</label>
                     <div className='bg-slate-100 p-2 w-full ml-32 border rounded'>

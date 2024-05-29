@@ -32,23 +32,58 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
 /* *****user table***** */
-.userTable{
+.userTable {
   @apply bg-white
 }
-.userTable th{
-  @apply border text-base font-medium 
+
+.userTable th {
+  @apply border text-base font-medium
 }
-.userTable td{
+
+.userTable td {
   @apply border text-base text-center
 }
 
 /****scroll hidden****/
-.scrollbar-none::-webkit-scrollbar{
+.scrollbar-none::-webkit-scrollbar {
   display: none;
+}
+
+/****continuous slide category list****/
+.category-list-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.category-list {
+  display: flex;
+  width: max-content;
+  animation: scrollLeft linear infinite;
+  animation-duration: 20s; /* Adjust the duration for speed */
+}
+
+.category-item {
+  flex: 0 0 auto;
+  padding: 0 15px;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.category-list-container:hover .category-list {
+  animation-play-state: paused;
 }

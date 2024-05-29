@@ -61,7 +61,6 @@ const ProductSchema = new mongoose.Schema({
     },
     images: [{
         type: String,
-        required:true
     }],
     createdBy: {
         type: mongoose.Types.ObjectId,
