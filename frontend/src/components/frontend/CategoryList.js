@@ -46,42 +46,49 @@ const CategoryList = () => {
   return (
     <div className='category-list-container  mx-auto'>
       <div className='category-list flex items-center' ref={listRef}>
-        {categoryProduct && categoryProduct.length > 0 ? (
-          <>
-            {categoryProduct.map((category, index) => (
-              <div key={index} className="block my-4 category-item">
-                <NavLink to={"/category/" + category.slug} className='cursor-pointer'>
-                  <div className='w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden p-3 bg-slate-200 flex items-center justify-center'>
-                    <img
-                      src={`${process.env.REACT_APP_IMAGE_URL}/${category.image}`}
-                      alt={category.name}
-                      className='h-full object-scale-down mix-blend-multiply hover:scale-125 transition-all'
-                    />
+        {
+          categoryProduct && categoryProduct.length > 0 ? (
+            <>
+              {
+                categoryProduct.map((category, index) => (
+                  <div key={index} className="block my-4 category-item">
+                    <NavLink to={"/category/" + category.slug} className='cursor-pointer'>
+                      <div className='w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden p-3 bg-slate-200 flex items-center justify-center'>
+                        <img
+                          src={`${process.env.REACT_APP_IMAGE_URL}/${category.image}`}
+                          alt={category.name}
+                          title={category.title}
+                          className='h-full object-scale-down mix-blend-multiply hover:scale-125 transition-all'
+                        />
+                      </div>
+                    </NavLink>
+                    <p className='text-center text-sm md:text-base capitalize'>{category?.title}</p>
                   </div>
-                </NavLink>
-                <p className='text-center text-sm md:text-base capitalize'>{category?.title}</p>
-              </div>
-            ))}
-            {categoryProduct.map((category, index) => (
-              <div key={index + categoryProduct.length} className="block my-4 category-item">
-                <NavLink to={"/category/" + category.slug} className='cursor-pointer'>
-                  <div className='w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden p-3 bg-slate-200 flex items-center justify-center'>
-                    <img
-                      src={`${process.env.REACT_APP_IMAGE_URL}/${category.image}`}
-                      alt={category.name}
-                      className='h-full object-scale-down mix-blend-multiply hover:scale-125 transition-all'
-                    />
-                  </div>
-                </NavLink>
-                <p className='text-center text-sm md:text-base capitalize'>{category?.title}</p>
-              </div>
-            ))}
-          </>
-        ) : (
-          <div className='flex justify-center items-center w-full'>
-            <p>No categories found.</p>
-          </div>
-        )}
+                )
+                )}
+              {
+                categoryProduct.map((category, index) => (
+                <div key={index + categoryProduct.length} className="block my-4 category-item">
+                  <NavLink to={"/category/" + category.slug} className='cursor-pointer'>
+                    <div className='w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden p-3 bg-slate-200 flex items-center justify-center'>
+                      <img
+                        src={`${process.env.REACT_APP_IMAGE_URL}/${category.image}`}
+                        alt={category.name}
+                        className='h-full object-scale-down mix-blend-multiply hover:scale-125 transition-all'
+                      />
+                    </div>
+                  </NavLink>
+                  <p className='text-center text-sm md:text-base capitalize'>{category?.title}</p>
+                </div>
+                )
+                )}
+            </>
+          ) : ( 
+            
+            <div className='flex justify-center items-center w-full'>
+              <p>No categories found.</p>
+            </div>
+          )}
       </div>
     </div>
   );

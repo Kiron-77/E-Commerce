@@ -2,11 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Paginate from 'react-paginate'
 import { NavLink } from 'react-router-dom'
 import { toast } from 'react-toastify'
-// import TableAction from '../../../components/Table/TableAction'
-// import TableImage from '../../../components/Table/TableImage'
-// import TableStatus from '../../../components/Table/TableStatus'
-// import AdminBreadCrumb from '../../../components/admin/braedcrumb/Breadcrumb'
-// import LoadingSpinner from '../../../components/common/loading.component'
 import TableAction from '../../../components/Table/TableAction'
 import TableImage from '../../../components/Table/TableImage'
 import TableStatus from '../../../components/Table/TableStatus'
@@ -14,9 +9,8 @@ import AdminBreadCrumb from '../../../components/admin/braedcrumb/Breadcrumb'
 import LoadingSpinner from '../../../components/common/loading.component'
 import productSvc from './productService'
 
-
 const AllProductList = () => {
-    const [data, setData] = useState()
+    const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     let [pageNo, setPageNo] = useState(1)
     const [pagination, setPagination] = useState({
@@ -25,6 +19,7 @@ const AllProductList = () => {
         limit: 15,
         noOfPages: 1
     })
+
     const getAllProduct = async (config) => {
         try {
             const response = await productSvc.listAllProducts(config)
@@ -37,7 +32,6 @@ const AllProductList = () => {
                 page: response.meta.currentPage,
                 limit: response.meta.limit,
                 noOfPages: Math.ceil(response.meta.total / response.meta.limit)
-
             })
         } catch (exception) {
             console.log(exception)
@@ -45,12 +39,14 @@ const AllProductList = () => {
             setLoading(false)
         }
     }
+
     useEffect(() => {
         getAllProduct({ page: 1, limit: 15, search: null })
     }, [])
+
     const deleteData = async (id) => {
         try {
-            const response = await productSvc.deleteProductById(id)
+            await productSvc.deleteProductById(id)
             getAllProduct({ page: 1, limit: 15, search: null })
             toast.success("Product deleted successfully")
         } catch (exception) {
@@ -58,132 +54,114 @@ const AllProductList = () => {
             toast.error("Product can not be deleted at this moment")
         }
     }
-    return (<>
+
+    return (
         <div className="container w-full px-4">
-            <h1 className=' font-bold text-xl mt-3'>All Products List</h1>
+            <h1 className='font-bold text-xl mt-3'>All Products List</h1>
             <AdminBreadCrumb
                 data={[
-                    {
-                        title: "Home",
-                        link: "/"
-                    },
-                    {
-                        title: "Dashboard",
-                        link: "/admin"
-                    },
-                    {
-                        title: "Products List",
-                        link: null
-                    }
+                    { title: "Home", link: "/" },
+                    { title: "Dashboard", link: "/admin" },
+                    { title: "Products List", link: null }
                 ]}
             />
             <div className='bg-slate-500 w-full py-2 px-6 flex justify-between items-center mt-3 ml-1 rounded-md'>
-                <h1 className=' text-center items-center justify-center font-bold text-xl mb-2 ml-96'>All Products List</h1>
+                <h1 className='text-center items-center justify-center font-bold text-xl mb-2 ml-96'>All Products List</h1>
                 <NavLink className='border-2 border-red-500 text-red-600 hover:bg-red-600 hover:text-white transition-all py-1 px-3 rounded-full' to={"/admin/product/upload"}>
                     Upload Product
                 </NavLink>
             </div>
-        </div>
-        <div className='justify-center items-center'>
-            <table className='lg:w-full md:full sm:full userTable ml-2 '>
-                <thead className=''>
-                    <tr className='bg-slate-700 text-white'>
-                        <th className="px-2 py-2">Sn.</th>
-                        <th className="px-7 py-2">Product Name</th>
-                        <th className="px-7 py-2">Brand Name</th>
-                        <th className="px-7 py-2">Seller Name</th>
-                        <th className="px-5 py-2">Price</th>
-                        <th className="px-3 py-2">Discount</th>
-                        <th className="px-3 py-2">After Discount</th>
-                        <th className="px-7 py-2">Description</th>
-                        <th className="px-10 py-2">Image</th>
-                        <th className="px-5 py-2">Status</th>
-                        <th className="px-8 py-2">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        loading ? <>
+            <div className='justify-center items-center'>
+                <table className='lg:w-full md:full sm:full userTable ml-2 '>
+                    <thead>
+                        <tr className='bg-slate-700 text-white'>
+                            <th className="px-2 py-2">Sn.</th>
+                            <th className="px-7 py-2">Product Name</th>
+                            <th className="px-7 py-2">Brand Name</th>
+                            <th className="px-7 py-2">Seller Name</th>
+                            <th className="px-5 py-2">Price</th>
+                            <th className="px-3 py-2">Discount</th>
+                            <th className="px-3 py-2">After Discount</th>
+                            <th className="px-7 py-2">Description</th>
+                            <th className="px-10 py-2">Image</th>
+                            <th className="px-5 py-2">Status</th>
+                            <th className="px-8 py-2">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {loading ? (
                             <tr>
-                                <td colSpan='5'>
+                                <td colSpan='11'>
                                     <LoadingSpinner />
                                 </td>
                             </tr>
-                        </> : <>
-                            {
-                                data && data.length ? <>
-                                    {
-                                        data.map((row, index) => (
-                                            <tr key={index}>
-                                                <td>{pageNo++}</td>
-                                                <td>{row.title}</td>
-                                                <td>{row.brand.title}</td>
-                                                <td>{row.seller.name}</td>
-                                                <td>{row.price}</td>
-                                                <td>{row.discount}</td>
-                                                <td>{row.afterDiscount}</td>
-                                                <td>{row.description}</td>
-                                                <td>
-                                                    <TableImage image={row.image} />
-                                                </td>
-                                                <td>
-                                                    <TableStatus status={row.status} />
-                                                </td>
-                                                <td>
-                                                    <TableAction
-                                                        deleteAction={deleteData}
-                                                        id={row._id}
-                                                        editUrl={"/admin/product/" + row._id}
-                                                    />
-                                                </td>
-                                            </tr>
-                                        ))
-                                    }
-                                </> : <tr>
-                                    <td colSpan={5}>
-                                        <p className='text-center'>No data found....</p>
-                                    </td>
-                                </tr>
-                            }
-                        </>
-                    }
-                </tbody>
-            </table>
-            {
-                pagination ? <>
+                        ) : (
+                            <>
+                                {data && data.length ? (
+                                    data.map((row, index) => (
+                                        <tr key={index}>
+                                            <td>{pageNo++}</td>
+                                            <td>{row.title}</td>
+                                            <td>{row.brand?.title ?? 'No Brand'}</td>
+                                            <td>{row.seller?.name ?? 'No Seller'}</td>
+                                            <td>{row.price}</td>
+                                            <td>{row.discount}</td>
+                                            <td>{row.afterDiscount}</td>
+                                            <td>{row.description}</td>
+                                            <td>
+                                                <TableImage image={row.image} />
+                                            </td>
+                                            <td>
+                                                <TableStatus status={row.status} />
+                                            </td>
+                                            <td>
+                                                <TableAction
+                                                    deleteAction={deleteData}
+                                                    id={row._id}
+                                                    editUrl={"/admin/product/" + row._id}
+                                                />
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={11}>
+                                            <p className='text-center'>No data found....</p>
+                                        </td>
+                                    </tr>
+                                )}
+                            </>
+                        )}
+                    </tbody>
+                </table>
+                {pagination ? (
                     <Paginate className='float-end flex gap-3'>
-                        {
-                            pagination.page !== 1 ? <>
-                                <Paginate.First onClick={(e) => {
-                                    getAllProduct({ page: 1, limit: pagination.limit, search: null })
-                                }} />
-                                <Paginate.Prev onClick={(e) => {
-                                    getAllProduct({ page: (+pagination.page - 1), limit: pagination.limit, search: null })
-                                }} />
-                            </> : <></>
-                        }
-                        {
-                            Array(pagination.noOfPages).fill(null).map((val, ind) => (
-                                <Paginate.Item onClick={(e) => {
-                                    getAllProduct({ page: (ind + 1), limit: pagination.limit, search: null })
-                                }} active={(pagination.page === (ind + 1)) ? true : false} key={ind}>{ind + 1}</Paginate.Item>
-                            ))
-                        }
-                        {
-                            pagination.page !== pagination.noOfPages ? <>
-                                <Paginate.Next onClick={(e) => {
-                                    getAllProduct({ page: (+pagination.page + 1), limit: pagination.limit, search: null })
-                                }} />
-                                <Paginate.Last onClick={(e) => {
-                                    getAllProduct({ page: pagination.noOfPages, limit: pagination.limit, search: null })
-                                }} />
-                            </> : <></>
-                        }
+                        {pagination.page !== 1 && (
+                            <>
+                                <Paginate.First onClick={() => getAllProduct({ page: 1, limit: pagination.limit, search: null })} />
+                                <Paginate.Prev onClick={() => getAllProduct({ page: pagination.page - 1, limit: pagination.limit, search: null })} />
+                            </>
+                        )}
+                        {Array(pagination.noOfPages).fill(null).map((_, ind) => (
+                            <Paginate.Item
+                                onClick={() => getAllProduct({ page: ind + 1, limit: pagination.limit, search: null })}
+                                active={pagination.page === ind + 1}
+                                key={ind}
+                            >
+                                {ind + 1}
+                            </Paginate.Item>
+                        ))}
+                        {pagination.page !== pagination.noOfPages && (
+                            <>
+                                <Paginate.Next onClick={() => getAllProduct({ page: pagination.page + 1, limit: pagination.limit, search: null })} />
+                                <Paginate.Last onClick={() => getAllProduct({ page: pagination.noOfPages, limit: pagination.limit, search: null })} />
+                            </>
+                        )}
                     </Paginate>
-                </> : <></>
-            }
+                ) : null}
+            </div>
         </div>
-    </>)
+    )
 }
 
 export default AllProductList

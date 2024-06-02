@@ -1,11 +1,11 @@
 const Joi = require("joi")
 
-const cartValidateSchema = Joi.object({
+const CartValidateSchema = Joi.object({
     productId: Joi.string().required(),
     quantity:Joi.number().min(1).required()
 })
-const CheckoutSchema = Joi.array().items(Joi.string().required())
+const CheckOutSchema = Joi.array().items(Joi.string().required())
 module.exports = {
-    cartValidateSchema,
-    CheckoutSchema
+    CartValidateSchema,
+    CheckOutSchema
 }

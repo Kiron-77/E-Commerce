@@ -14,37 +14,37 @@ router.get('/:slug/bySlug',productCtrl.getProductDetailBySlug)
 router.get('/:brandslug/bybrand', productCtrl.getProductsByBrand)
 router.get('/:categoryslug/bycategory',productCtrl.getProductsByCategory)
 router.route('/')
-    .post(
-        authCheck,
-        PermissionCheck([USER_ROLES.admin,USER_ROLES.seller]),
-        uploader.array('images'),
-        validator(productCreateSchema),
-        productCtrl.createProduct
+.post(
+    authCheck,
+    PermissionCheck([USER_ROLES.admin,USER_ROLES.seller]),
+    uploader.array('images'),
+    validator(productCreateSchema),
+    productCtrl.createProduct
 )
-    .get(
-        authCheck,
-        PermissionCheck([USER_ROLES.admin,USER_ROLES.seller]),
-        productCtrl.listAllProducts
+.get(
+    authCheck,
+    PermissionCheck([USER_ROLES.admin,USER_ROLES.seller]),
+    productCtrl.listAllProducts
 )
 router.route("/:id")
-    .get(
-        authCheck,
-        PermissionCheck([USER_ROLES.admin,USER_ROLES.seller]),
-        productCtrl.getProductDetail
+.get(
+    authCheck,
+    PermissionCheck([USER_ROLES.admin,USER_ROLES.seller]),
+    productCtrl.getProductDetail
 )
-    .put(
-        authCheck,
-        PermissionCheck([USER_ROLES.admin,USER_ROLES.seller]),
-        uploader.array('images'),
-        validator(productCreateSchema),
-        productCtrl.updateById
+.put(
+    authCheck,
+    PermissionCheck([USER_ROLES.admin,USER_ROLES.seller]),
+    uploader.array('images'),
+    validator(productCreateSchema),
+    productCtrl.updateById
 
-        
+    
 )
-    .delete(
-        authCheck,
-        PermissionCheck([USER_ROLES.admin,USER_ROLES.seller]),
-        productCtrl.deleteById
+.delete(
+    authCheck,
+    PermissionCheck([USER_ROLES.admin,USER_ROLES.seller]),
+    productCtrl.deleteById
 )
 
 module.exports = router;

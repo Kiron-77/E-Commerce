@@ -57,6 +57,14 @@ class BrandService extends HttpService{
             throw exception
         }
     }
+    getBrandDetail = async (slug) => {
+        try {
+            const response = await this.getRequest('/v1/product/'+slug+'/bybrand')
+                return response
+        } catch (exception) {
+            throw exception
+        }
+    }
 }
 const brandSvc = new BrandService()
 export default brandSvc

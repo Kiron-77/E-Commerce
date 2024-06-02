@@ -8,6 +8,7 @@ import AdminLayout from "../Layout/AdminLayout";
 import { ThemeProvider } from "../config/Theme.config";
 import CheckPermission from "../config/permission.config";
 import DashboardPage from "../pages/admin/dahboard/DasboardPage";
+import CartList from "../pages/cart/CartList";
 import ActivatePage from "../pages/cms/auth/ActivatePage";
 import ForgetPasswordPage from "../pages/cms/auth/ForgetPasswordPage";
 import LoginPage from "../pages/cms/auth/LoginPage";
@@ -16,10 +17,12 @@ import SignupPage from "../pages/cms/auth/SignupPage";
 import { AllBannerList, UpdateBanner, UploadBanner } from "../pages/cms/banner";
 import { AllBrandList, UpdateBrand, UploadBrand } from "../pages/cms/brand";
 import { AllCategoryList, UpdateCategory, UploadCategory } from "../pages/cms/category";
-import CategoryDetail from "../pages/cms/category/CategoryDetail";
 import { AllProductList, UpdateProduct, UploadProducts } from "../pages/cms/products";
 import { AllUserList, EditUser } from "../pages/cms/users";
 import Error404 from "../pages/error/Error404Page";
+import BrandDetail from "../pages/frontend/brand/BrandDetail";
+import CategoryDetail from "../pages/frontend/category/CategoryDetail";
+import ProductDetail from "../pages/frontend/product/ProductDetail";
 import HomePage from "../pages/home/HomePage";
 import { getLoggedInUser } from "../reducers/user.reducer";
 
@@ -46,6 +49,13 @@ const Router = () => {
                     <Route path="reset-password/:token" element={<ResetPasswordPage />}></Route>
 
                     <Route path="category/:slug" element={<CategoryDetail />}></Route>
+                    <Route path="brand/:slug" element={<BrandDetail />}></Route>
+                    <Route path="product/:slug" element={<ProductDetail />}></Route>
+
+                    <Route path="/cart" element={<CheckPermission accessBy={"customer"}>
+                            <CartList />
+                        </CheckPermission>}>
+                        </Route>
 
                     <Route path="*" element={<Error404 goBackUrl={' /'} name={'Home Page'} />}></Route>
                 </Route>

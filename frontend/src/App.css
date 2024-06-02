@@ -87,3 +87,40 @@
 .category-list-container:hover .category-list {
   animation-play-state: paused;
 }
+
+/****continuous slide Brand list****/
+@keyframes slide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); } /* Adjust this value based on the number of items */
+}
+
+.brand-list-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.brand-list {
+  display: flex;
+  width: max-content;
+  animation: slide 30s linear infinite;
+  animation-play-state: paused; /* Start paused */
+}
+
+.brand-item {
+  flex: 0 0 auto;
+  padding: 0 15px;
+}
+
+.brand-list-container:hover .brand-list {
+  animation-play-state: running; /* Resume on hover */
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

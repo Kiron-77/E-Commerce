@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as Yup from "yup";
-import loginIcons from '../../../asset/logo.svg';
+import loginIcons from '../../../asset/signin.gif';
 import { EmailInputComponent, PasswordInput } from '../../../components/common/input.component';
 import LoadingSpinner from '../../../components/common/loading.component';
 import { setLoggedInUser } from '../../../reducers/user.reducer';

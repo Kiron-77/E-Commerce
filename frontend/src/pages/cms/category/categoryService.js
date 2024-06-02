@@ -56,6 +56,14 @@ class CategoryService extends HttpService{
             throw exception
         }
     }
+    getCategoryDetail = async (slug) => {
+        try {
+            const response = await this.getRequest('/v1/product/'+slug+'/bycategory')
+                return response
+        } catch (exception) {
+            throw exception
+        }
+    }
 }
 const categorySvc = new CategoryService()
 export default categorySvc

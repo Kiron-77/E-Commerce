@@ -2,7 +2,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProductGridList from "../../../components/product/ProductGridList";
-import categorySvc from "./categoryService";
+import categorySvc from "../../cms/category/categoryService";
+
 
 const CategoryDetail = () => {
   const params = useParams();
@@ -21,9 +22,9 @@ const CategoryDetail = () => {
     getCategoryDetail();
   }, [getCategoryDetail]);
   return (<>
-          <div className="container mx-auto my-5 py-5">
+          <div className="container mx-auto my-2 py-2">
       <div className="mb-4">
-        <h1>Category Detail:</h1>
+        <h4 className="text-xl font-bold text-blue-500">Categorywise Products</h4>
       </div>
       <div className="my-3">
         {products && products.length > 0 ? (

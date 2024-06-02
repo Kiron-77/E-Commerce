@@ -3,26 +3,27 @@ const authCheck = require("../../middlewares/auth.middleware")
 const PermissionCheck = require("../../middlewares/rbac.middleware")
 const { validator } = require("../../middlewares/validator.middleware")
 const cartController = require("./cart.controller")
-const { cartValidateSchema, CheckoutSchema } = require("./cart.request")
+const { CheckOutSchema, CartValidateSchema} = require("./cart.request")
+// const { cartValidateSchema, CheckoutSchema } = require("./cart.request")
 
 const router = require("express").Router()
 
 router.post("/create",
     authCheck,
     PermissionCheck([USER_ROLES.customer, USER_ROLES.admin]),
-    validator(cartValidateSchema),
+    validator(CartValidateSchema),
     cartController.create
 )
 router.post("/checkout",
     authCheck,
     PermissionCheck([USER_ROLES.customer, USER_ROLES.admin]),
-    validator(CheckoutSchema),
+    validator(CheckOutSchema),
     cartController.checkout
 )
 router.get("/list",
     authCheck,
     PermissionCheck([USER_ROLES.customer, USER_ROLES.admin]),
-cartController.listcart
+    cartController.listCart
 )
 router.delete("/:id",
     authCheck,
@@ -31,7 +32,7 @@ router.delete("/:id",
 )
 router.get("/list/by-admin",
     authCheck,
-    PermissionCheck([USER_ROLES.admin]),
+    PermissionCheck([ USER_ROLES.admin]),
     cartController.listByAdmin
 )
 

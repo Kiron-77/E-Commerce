@@ -3,7 +3,7 @@ import { CiSearch } from "react-icons/ci";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import Logo from '../../logo/logo';
 import Authsvc from '../../pages/cms/servicepage/auth.service';
@@ -84,9 +84,9 @@ const Header = () => {
     <header className='sticky top-0 h-16 w-full mx-auto justify-between shadow-md bg-white z-50'>
       <div className='h-full ml-10 mr-10 mx-auto flex items-center justify-between'>
         <div className=''>
-          <Link to={"/"}>
+          <NavLink to={"/"}>
             <Logo w={90} h={50} />
-          </Link>
+          </NavLink>
         </div>
         <form
           className='hidden lg:flex items-center w-full justify-between m-r-15 max-w-xl border rounded-full focus-within:shadow-sm pl-2'
@@ -124,21 +124,21 @@ const Header = () => {
                     menuDisplay && (
                       <div className='absolute bg-white bottom-0 top-11 h-fit p-2 shadow-lg rounded '>
                         <nav>                 
-                      <Link className={"whitespace-nowrap hover:bg-slate-100 p-2 text-blue-700"} to={"/" + loggedInuserDetail?.role}>{loggedInuserDetail.name}</Link>
+                      <NavLink className={"whitespace-nowrap hover:bg-slate-100 p-2 text-blue-700"} to={"/" + loggedInuserDetail?.role}>{loggedInuserDetail.name}</NavLink>
                     </nav>  
                   </div>
                     )
                   }
                   
-                  </div>
-                <div className="text-2xl relative">
-                  <span ><FaShoppingCart /></span>
+                  </div> 
+                <div className="text-2xl cursor-pointer relative">
+                  <NavLink to={"/cart"}><FaShoppingCart /></NavLink>
                   <div className='bg-red-600 text-white w-5 h-5 pb-1 pl-1.5 rounded-full flex-items-center justify-center absolute -top-2 -right-3'>
-                    <p className='text-sm'>0</p>
+                    <p className='text-sm'>{totalCount || 0}</p>
                   </div>
                 </div>
                 <div>
-                  <Link to={"/"} className='px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700' onClick={handleLogout} >Logout</Link>
+                  <NavLink to={"/"} className='px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700' onClick={handleLogout} >Logout</NavLink>
                 </div>
               </>
             ) : (
@@ -147,7 +147,7 @@ const Header = () => {
                   <FaRegCircleUser />
                   </div>
                 <div>
-                  <Link to={"/login"} className='px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700'>Login</Link>
+                  <NavLink to={"/login"} className='px-3 py-1 rounded-full text-white bg-red-600 hover:bg-red-700'>Login</NavLink>
                 </div>
 
               </>
