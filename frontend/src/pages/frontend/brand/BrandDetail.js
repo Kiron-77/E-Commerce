@@ -26,11 +26,13 @@ const BrandDetail = () => {
         <h4 className="text-xl font-bold text-blue-500">Brandwise Products</h4>
       </div>
       <div className="my-3">
-        {products && products.length > 0 ? (
-          <ProductGridList products={products} />
-        ) : (
-          <p className="text-red-500">No products found</p>
-        )}
+        {
+          products && products.length > 0 ? (
+            <ProductGridList products={products} />
+          ) : (
+            <p className="text-red-500">No products found</p>
+          )
+        }
       </div>
     </div>
   </>)

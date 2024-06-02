@@ -9,7 +9,7 @@ export const SingleProduct = ({ product }) => {
     return (
         <div className='container mx-auto '>
             <div className='w-full min-w-[120]] md:min-w-[240px] max-w-[240px] md:max-w-[2800px] bg-white rounded-lg shadow-lg flex flex-col'>
-                <div className='bg-slate-300 p-2 h-48 md:h-56 flex items-center justify-center rounded-lg'>
+                <div className='bg-slate-300 p-2 h-48 justify-center md:h-56 flex items-center md:justify-center rounded-lg '>
                     <img
                         onError={showError}
                         src={`${process.env.REACT_APP_IMAGE_URL}/${product.images[0]}`}
@@ -57,7 +57,7 @@ const SingleProductItem = ({ product }) => {
     return (
         <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-2 mb-2">
             <SingleProduct product={product} />
-        </div>
+         </div>
     );
 }
 

@@ -3,62 +3,65 @@ const ProductModel = require("./product.model");
 
 class ProductService {
     transformRequest = (req, isEdit = false) => {
-        const data = { ...req.body };
-
-        if (!isEdit && !req.files) {
-            throw { code: 422, message: "Image is required", result: { image: "Image is required" } };
-        } else if (req.files) {
-            data.images = req.files.map((item) => item.filename);
+        const data = {
+            ...req.body,  //title,status,url,image,createdBy
         }
-
+        if (!isEdit && !req.files) {
+            throw { code: 422, message: "Image is required", result: { image: "Image is required" } }
+        } else {
+            if (req.files) {
+                data.images = req.files.map((item)=>item.filename)
+            }
+        }
         if (data.category === 'null' || data.category === '') {
             data.category = null;
         } else {
-            data.category = data.category.split(',');
+            // "id,id,id"
+            data.category = data.category.split(",")
         }
-
-        data.afterDiscount = data.price - (data.price * data.discount / 100);
+        data.afterDiscount = data.price - data.price * data.discount / 100
 
         if (data.seller === 'null' || data.seller === '') {
             data.seller = null;
         }
-
         if (data.brand === 'null' || data.brand === '') {
             data.brand = null;
         }
-
-        data.featured = data.featured === 'true' || data.featured === 1;
-
-        if (!isEdit) {
-            if (!data.title) {
-                throw { code: 400, message: "Title is required" };
-            }
-            data.slug = slugify(data.title, { replacement: "-", lower: true });
-            data.createdBy = req.authUser._id;
+        if (data.featured === 'true' || data.featured === 1) {
+            data.featured = true;
         } else {
-            data.updatedBy = req.authUser._id;
+            data.featured = false
         }
-
+        
+        if (!isEdit) {
+            data.slug = slugify(data.title, {
+                replacement: "-",
+                lower: true
+            });
+            data.createdBy = req.authUser._id
+        }else{
+            data.updatedBy = req.authUser._id
+        }
         return data;
-    };
-
-    createProduct = async (data) => {
-        try {
-            const product = new ProductModel(data);
-            return await product.save();
-        } catch (exception) {
+    }
+    createProduct = async(data)=>{
+        try{
+            const product = new ProductModel(data)
+            return await product.save()
+        }catch(exception){
             throw exception;
         }
-    };
-
-    updateProduct = async (id, data) => {
+    }
+    updateProduct = async(id,data) => {
         try {
-            const status = await ProductModel.findByIdAndUpdate(id, { $set: data });
+            let status = await ProductModel.findByIdAndUpdate(id, {
+               $set:data
+            }) 
             return status;
         } catch (exception) {
-            throw exception;
+            throw exception
         }
-    };
+    }
     getCount = async(filter = {}) => {
         const count = await ProductModel.countDocuments(filter) 
         return count;
@@ -104,6 +107,7 @@ class ProductService {
             throw exception
         }
     }
+
 }
 
 const productSvc = new ProductService();

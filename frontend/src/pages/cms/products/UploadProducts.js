@@ -180,10 +180,18 @@ const UploadProducts = () => {
             <h1 className='font-bold text-xl mt-3'>Upload Product</h1>
             <AdminBreadCrumb
                 data={[
-                    { title: "Home", link: "/" },
-                    { title: "Dashboard", link: "/admin" },
-                    { title: "Product List", link: "/admin/product" },
-                    { title: "Product Create", link: null }
+                    {
+                        title: "Home", link: "/"
+                    },
+                    {
+                        title: "Dashboard", link: "/admin"
+                    },
+                    {
+                        title: "Product List", link: "/admin/product"
+                    },
+                    {
+                        title: "Product Create", link: null
+                    }
                 ]}
             />
             <div className="bg-slate-500 flex min-w-full flex-col mt-2 m-8">

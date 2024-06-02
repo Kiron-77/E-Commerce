@@ -23,6 +23,7 @@ import Error404 from "../pages/error/Error404Page";
 import BrandDetail from "../pages/frontend/brand/BrandDetail";
 import CategoryDetail from "../pages/frontend/category/CategoryDetail";
 import ProductDetail from "../pages/frontend/product/ProductDetail";
+import SearchProduct from "../pages/frontend/search/SearchProduct";
 import HomePage from "../pages/home/HomePage";
 import { getLoggedInUser } from "../reducers/user.reducer";
 
@@ -51,6 +52,8 @@ const Router = () => {
                     <Route path="category/:slug" element={<CategoryDetail />}></Route>
                     <Route path="brand/:slug" element={<BrandDetail />}></Route>
                     <Route path="product/:slug" element={<ProductDetail />}></Route>
+
+                    <Route path="search" element={<SearchProduct/>}></Route>
 
                     <Route path="/cart" element={<CheckPermission accessBy={"customer"}>
                             <CartList />

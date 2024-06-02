@@ -5,7 +5,7 @@ class ProductService extends HttpService{
         try {
             let queryString = `page=${page}&limit=${limit}`
             if (search) {
-                queryString +='&search'+search
+                queryString +=`&search=${search}`
             }
             const response = await this.getRequest('/v1/product?' + queryString, { auth: true })
             return response
@@ -78,6 +78,14 @@ class ProductService extends HttpService{
             return response
         } catch (exception) {
             throw exception
+        }
+    }
+    async getSearchProduct(query) {
+        try {
+            const response = await this.getRequest(`/v1/product/search?q=${query}`, { auth: true });
+            return response
+        } catch (exception) {
+            throw exception;
         }
     }
 }

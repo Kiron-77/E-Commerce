@@ -3,20 +3,20 @@ const brandSvc = require("../brand/brand.service")
 const categorySvc = require("../category/category.service");
 const { ConnectionPoolCreatedEvent } = require("mongodb");
 class ProductController{
-    createProduct = async (req, res, next) => {
-        try {
+    createProduct = async(req,res,next)=>{
+        try{
             const data = productSvc.transformRequest(req);
-            const success = await productSvc.createProduct(data);
+            const success = await productSvc.createProduct(data)
             res.json({
-                result: success,
-                message: "Product stored Successfully",
-                meta: null
-            });
-        } catch (exception) {
-            console.log('ProductCreate', exception);
-            next(exception);
+                result:success,
+                message:"Product stored Successfully",
+                meta:null
+            })
+        }catch(exception){
+            console.log('ProductCreate',exception)
+            next(exception)
         }
-    };
+    }
     listAllProducts = async (req, res, next) => {
         try {
             const query = req.query;
@@ -95,28 +95,28 @@ class ProductController{
     }
     updateById = async (req, res, next) => {
         try {
-            const productDetail = await productSvc.getOneByFilter({ _id: req.params.id });
+            const productDetail = await productSvc.getOneByFilter({ _id: req.params.id })
             if (!productDetail) {
-                throw { code: 404, message: "Product not found" };
+                throw{code:404,message:"Product not found"}
             }
-            const data = productSvc.transformRequest(req, true);
-            if (!data.images) {
-                data.images = productDetail.images;
+            const data = productSvc.transformRequest(req, true)
+            if (!data.image) {
+                data.image = productDetail.images
             }
-            const success = await productSvc.updateProduct(req.params.id, data);
+            const success = await productSvc.updateProduct(req.params.id, data)
             if (!success) {
-                throw { code: 400, message: "Problem while updating Product" };
+                throw{code:400,message:"Problem while updating Bannner"}
             }
             res.json({
                 result: success,
                 message: "Product Updated Successfully",
-                meta: null
-            });
+                meta:null
+            })
         } catch (exception) {
-            console.log('Product updated', exception);
-            next(exception);
+            console.log('Product updated',exception)
+            next(exception)
         }
-    };
+    }
     deleteById = async (req, res, next) => {
         try {
             let response = await productSvc.deleteById(req.params.id)

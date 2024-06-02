@@ -25,7 +25,7 @@ const ProductDetail = () => {
     const dispatch = useDispatch();
 
     const productImageListloading = new Array(4).fill(null);
-    const [activeImage, setActiveImage] = useState("");
+    const [activeImage, setActiveImage] = useState("https://placehold.co/300x250?text=No+Image+Found");
 
     const params = useParams();
     const navigate = useNavigate();
@@ -35,12 +35,13 @@ const ProductDetail = () => {
             console.log(response)
             setDetail(response.result.detail);
             setRelated(response.result.related);
-            // setActiveImage(response?.result?.activeImage[0]);
             if (response?.result?.activeImage && response.result.activeImage.length > 0) {
-                setActiveImage(response.result.activeImage[0]);
-            } else {
-                setActiveImage('');
+                setActiveImage(`${process.env.REACT_APP_IMAGE_URL}/${response.result.detail.images[0]}`);
             }
+                // } else {
+            //     setActiveImage('https://placehold.co/300x250?text=No+Image+Found');
+            // }
+            
         } catch (exception) {
             toast.error("Product not found");
             console.log(exception);
@@ -63,23 +64,23 @@ const ProductDetail = () => {
 
     const addToCart = async (e) => {
         try {
-            e.preventDefault();
-            const token = localStorage.getItem("_au");
+            e.preventDefault()
+            const token = localStorage.getItem("_au")
             if (!token) {
-                localStorage.setItem("_redirectUrl", '/product/' + detail.slug);
-                toast.warning("Please login first to add item in cart");
-                navigate('/login');
+                localStorage.setItem("_redirectUrl", '/product/' + detail.slug)
+                toast.warning("Please login first to add item in cart")
+                navigate('/login')
             } else {
                 const cartItem = {
                     productId: detail._id,
-                    quantity: +qty,
-                };
-                const response = await cartSvc.addToCart(cartItem);
-                dispatch(getCartDetail());
-                toast.success("Your Item has been successfully added in the cart");
+                    quantity: +qty
+                }
+                const response = await cartSvc.addToCart(cartItem)
+                dispatch(getCartDetail())
+                toast.success("Your Item has been successfully added in the cart")
             }
         } catch (exception) {
-            toast.error("Sorry!! this Item cannot be added in the cart right now");
+            toast.error("Sorry!! this Item cannot be added in the cart right now")
         }
     }
     const handleZoonImage = useCallback((e) => {
@@ -179,7 +180,7 @@ const ProductDetail = () => {
                                                             {
                                                                 detail.discount > 0 && (
                                                                     <div className="flex items-center">
-                                                                        <del className="text-red-500 me-2">Npr.{detail.price}</del>
+                                                                        <div className="text-red-500 me-2">Npr.{detail.price}</div>
                                                                         <span className="text-red-500">(-{detail.discount}% Off)</span>
                                                                     </div>
                                                                 )
@@ -244,10 +245,6 @@ const ProductDetail = () => {
                                                         <div className="font-bold w-48">Description:</div>
                                                         <div>{detail.description}</div>
                                                     </div>
-                                                </div>
-                                                <div className="gap-4">
-
-
                                                 </div>
                                             </>
                                         )

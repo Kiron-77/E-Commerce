@@ -26,7 +26,7 @@ const HomePage = () => {
     </div>
     <div className="container mx-auto my-8">
         <div className="mb-4">
-          <h4 className="text-xl font-bold">Products List</h4>
+          <h4 className="text-xl font-bold">Just For You</h4>
         </div>
         <ProductGridList products={product} />
       </div>

@@ -22,20 +22,22 @@ const CategoryDetail = () => {
     getCategoryDetail();
   }, [getCategoryDetail]);
   return (<>
-          <div className="container mx-auto my-2 py-2">
+    <div className="container mx-auto my-2 py-2">
       <div className="mb-4">
         <h4 className="text-xl font-bold text-blue-500">Categorywise Products</h4>
       </div>
       <div className="my-3">
-        {products && products.length > 0 ? (
-          <ProductGridList products={products} />
-        ) : (
-          <p className="text-red-500">No products found</p>
-        )}
+        {
+          products && products.length > 0 ? (
+            <ProductGridList products={products} />
+          ) : (
+            <p className="text-red-500">No products found</p>
+          )
+        }
       </div>
     </div>
 
-    </>)
+  </>)
 }
 
 export default CategoryDetail

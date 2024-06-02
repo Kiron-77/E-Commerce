@@ -17,7 +17,6 @@ const CartList = () => {
   const addCartIds = (e,id) => {
     const { checked } = e.target;
     const ids = [...cartIds] || []
-    console.log(ids)
     if (checked) {
       ids.push(id)
     } else {
@@ -42,7 +41,8 @@ const CartList = () => {
   const getCartDetail = useCallback(async () => {
     try {
       const response = await cartSvc.getMyCart();
-      setCartDetail(response.result || []);
+      console.log(response)
+      setCartDetail(response.result);
     } catch (exception) {
       toast.error("Error fetching cart Detail");
       console.error(exception);
