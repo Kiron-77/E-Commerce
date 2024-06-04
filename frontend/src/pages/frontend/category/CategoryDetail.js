@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import ProductGridList from "../../../components/product/ProductGridList";
 import categorySvc from "../../cms/category/categoryService";
 
-
 const CategoryDetail = () => {
   const params = useParams();
   const [products, setProducts] = useState();
@@ -23,7 +22,7 @@ const CategoryDetail = () => {
   }, [getCategoryDetail]);
   return (<>
     <div className="container mx-auto my-2 py-2">
-      <div className="mb-4">
+      <div className="mb-4 mt-4">
         <h4 className="text-xl font-bold text-blue-500">Categorywise Products</h4>
       </div>
       <div className="my-3">
@@ -36,8 +35,10 @@ const CategoryDetail = () => {
         }
       </div>
     </div>
-
   </>)
 }
 
 export default CategoryDetail
+
+
+

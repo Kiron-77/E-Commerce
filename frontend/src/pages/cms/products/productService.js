@@ -80,13 +80,22 @@ class ProductService extends HttpService{
             throw exception
         }
     }
-    async getSearchProduct(query) {
+     getSearchProduct = async(query)=> {
         try {
             const response = await this.getRequest(`/v1/product/search?q=${query}`, { auth: true });
             return response
         } catch (exception) {
             throw exception;
         }
+    }
+     getFilterProduct = async (filter) => {
+        try {
+            const queryParams = new URLSearchParams(filter).toString();
+            const response = await this.postRequest(`/v1/product/filterproduct`, filter);
+            return response.data;
+          } catch (exception) {
+            throw exception;
+          }
     }
 }
 const productSvc = new ProductService()

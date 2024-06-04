@@ -4,6 +4,7 @@ const authCheck = require('../../middlewares/auth.middleware')
 const PermissionCheck = require('../../middlewares/rbac.middleware')
 const uploader = require('../../middlewares/uploader.middlewares')
 const { validator } = require('../../middlewares/validator.middleware')
+const filterProduct = require('../filterProduct/filterProduct.controller')
 const searchProduct = require('../searchProduct/searchProduct.controller')
 const productCtrl = require('./product.controller')
 const { productCreateSchema } = require('./product.request')
@@ -28,7 +29,8 @@ router.route('/')
         productCtrl.listAllProducts
     )
 
-router.get("/search",searchProduct )
+router.get("/search", searchProduct)
+router.post("/filterproduct",filterProduct)
 
 router.route("/:id")
     .get(

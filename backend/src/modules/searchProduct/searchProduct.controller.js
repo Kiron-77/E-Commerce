@@ -1,39 +1,4 @@
-// const ProductModel = require("../product/product.model");
 
-// import CategoryModel = require("../category/category.model");
-
-// const searchProduct = async (req, res, next) => {
-//         try {
-//             const query = req.query.q;
-//             const regex = new RegExp(query, 'i');
-    
-//             const response = await ProductModel.find({
-//                 "$or": [
-//                     {
-//                         productName: regex
-//                     },
-//                     {
-//                         category: regex
-//                     }
-//                 ]
-//             });
-    
-//             res.json({
-//                 result: response,
-//                 message: "Search product list",
-//                 error: false,
-//                 success: true
-//             });
-//         } catch (exception) {
-//             res.json({
-//                 message: exception.message || exception,
-//                 error: true,
-//                 success: false
-//             });
-//         }
-//     };
-
-// module.exports = searchProduct
 const CategoryModel = require("../category/category.model");
 const ProductModel = require("../product/product.model");
 
